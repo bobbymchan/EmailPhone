@@ -13,8 +13,8 @@ phoneRegex = re.compile(r'''
 \d\d\d                          # first 3 digits
 -                               # seperator
 \d\d\d\d                        # last 4 digits
-((ext(\.)?\s)|x)                # extension word-part(optional)
-((\d{2,5}))?                    # extension number-part (optional)
+(((ext(\.)?\s)|x)               # extension word-part(optional)
+ (\d{2,5}))?                    # extension number-part (optional)
 
 ''', re.VERBOSE)
 
