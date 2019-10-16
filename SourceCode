@@ -1,4 +1,5 @@
 #! python3
+#Program to filter out phone numbers and e-mails from clipboard, replaces clipboard, and allows paste of only phone numbers and e-mails
 
 import re, pyperclip
 
@@ -8,6 +9,7 @@ phoneRegex = re.compile(r'''
 
 # 415-555-0000, 555-1230, (415 555-0000, 555-0000 ext 123456, ext. 123456, x12345
 
+(
 ((\d\d\d)|(\(\d\d\d\)))?        # area code (optional)
 (\s|-)                          # first seperator
 \d\d\d                          # first 3 digits
@@ -16,6 +18,7 @@ phoneRegex = re.compile(r'''
 (((ext(\.)?\s)|x)               # extension word-part(optional)
  (\d{2,5}))?                    # extension number-part (optional)
 
+)
 ''', re.VERBOSE)
 
 # Create a regex for e-mail numbers
@@ -36,12 +39,18 @@ text = pyperclip.paste()
 
 # Extract the e-mail and phone from this text
 
-phoneRegex.findall(text)
-
-# Copy the extracted email and phone to the clipboard
-
 extractedPhone = phoneRegex.findall(text)
 extractedEmail = emailRegex.findall(text)
 
-print(extractedPhone)
-print(extractedEmail)
+allPhoneNumbers = []
+for phoneNumber in extractedPhone:
+    allPhoneNumbers.append(phoneNumber[0])
+
+# Copy the extracted email and phone to the clipboard
+
+results = '\n'.join(allPhoneNumbers) + '\n' + '\n'.join(extractedEmail)
+pyperclip.copy(results)
+
+allPhoneNumbers = []
+for phoneNumber in extractedPhone:
+    allPhoneNumbers.append(phoneNumber[0])
